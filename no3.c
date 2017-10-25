@@ -17,6 +17,7 @@ void* playandcount(void *arg){
 		statk = statk - 10;
 	}
 	printf("game over\n");
+	return 0;
     }
     else if(pthread_equal(id,tid[1])){
 	while(statl > 0 && statl <= 100){
@@ -24,6 +25,7 @@ void* playandcount(void *arg){
 		statl = statl - 15;
 	}
 	printf("game over\n");
+	return 0;
     }
     return NULL;
 }
@@ -35,15 +37,15 @@ int main(void){
 	pthread_create(&(tid[i]),NULL,&playandcount,NULL);
         i++;
     }
-    while(){
+    while(1){
     	printf("status Kepiting : %d\nstatus Lohan : %d\n",statk, statl);   
     	printf("1.Memberi makan Kepiting\n");
     	printf("2.Memberi makan Lohan\n");
     	printf("1 / 2 ?\n");
     	scanf("%d",&x);
-
     	if (x == 1) statk = statk + 10;
     	else if (x == 2) statl = statl + 10;
+	else continue;
     }
     pthread_join(tid[0], NULL);
     pthread_join(tid[1], NULL);
