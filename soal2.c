@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include <windows.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 
 int Score1 = 0,Score2 = 0, Round = 1;
 int A[17] = {0},B[17] = {0},Turn = 1;
@@ -13,8 +15,8 @@ void DisplayMines(char *Name1,char *Name2)
 	{
 		printf ("%d\t%d\t%d\n",Count,A[Count],B[Count]);
 	}
-	Sleep (10000);
-	system ("cls");
+	sleep (10);
+	system ("clear");
 	Rules(Name1,Name2);
 }
 
@@ -22,8 +24,9 @@ void Print(char *Name1,char *Name2)
 {
 	printf ("%s = %d\n",Name1,Score1);
 	printf ("%s = %d",Name2,Score2);
-	Sleep (2500);
-	system ("cls");
+    fflush(stdout);
+	sleep (2);
+	system ("clear");
 	Rules(Name1,Name2);
 }
 
@@ -45,7 +48,7 @@ void Rules(char *Name1,char *Name2)
 	}
 	else
 	{
-		system ("cls");
+		system ("clear");
 		return;
 	}
 }
@@ -69,12 +72,12 @@ void Part1(char *Name1,char *Name2)
 			B[L] = 1;
 		}
 	}
-	system("cls");
+	system("clear");
 }
 
 int Part2(char *Name1,char *Name2)
 {
-	int Trial = 4,P,L;
+	int Trial = 4,P,L,T1 = 0,T2 = 0;
 	printf ("Round %d: %s may now guess the safe positions [%d X]\n",Round,Turn?Name1:Name2,Turn?2:1);
 	if (Turn == 0) Turn++; else Turn--;
 	while (Trial--)
@@ -86,6 +89,7 @@ int Part2(char *Name1,char *Name2)
 			{
 				Score1++;
 			}
+            else Score2++;
 		}
 		else
 		{
@@ -93,6 +97,7 @@ int Part2(char *Name1,char *Name2)
 			{
 				Score2++;
 			}
+            else Score1++;
 		}
 		if (Score1 == 10)
 		{
@@ -105,11 +110,48 @@ int Part2(char *Name1,char *Name2)
 		{
 			printf ("\n%s wins the game!\n",Name2);
 			printf ("%s = %d\n",Name1,Score1);
-			printf ("%s = %d",Name2,Score2);
+			printf ("%s = %d\n",Name2,Score2);
 			exit(0);
 		}
+        T1 = 0;
+        T2 = 0;
+        for (int C = 1;C <= 16;C++)
+        {
+            if (A[C]==1)
+            {
+                T1++;
+            }
+            if (B[C]==1)
+            {
+                T2++;
+            }
+            if ((T1==16)&&(T2==16))
+            {
+                if(Score1 > Score2)
+                {
+                    printf ("\n%s wins the game!\n",Name1);
+			        printf ("%s = %d\n",Name1,Score1);
+			        printf ("%s = %d\n",Name2,Score2);
+			        exit(0);
+                }
+                else if(Score1 == Score2)
+                {
+                    printf ("DRAW GAME!\n");
+			        printf ("%s = %d\n",Name1,Score1);
+			        printf ("%s = %d\n",Name2,Score2);
+			        exit(0);
+                }
+                else
+                {
+                    printf ("\n%s wins the game!\n",Name2);
+			        printf ("%s = %d\n",Name1,Score1);
+			        printf ("%s = %d\n",Name2,Score2);
+			        exit(0);
+                }
+            }
+        }
 	}
-	system("cls");
+	system("clear");
 }
 
 void Game(char *Name1,char *Name2)
@@ -125,16 +167,18 @@ void Game(char *Name1,char *Name2)
 int main ()
 {
 	char Name1[50],Name2[50];
+    system("clear");
 	printf ("\tWelcome to Bomb Guessing game!\n\n");
 	printf ("Player 1: ");
 	gets(Name1);
-	fflush(stdin);
+    fflush(stdin);
 	printf ("Player 2: ");
 	gets(Name2);
-	fflush(stdin);
+    fflush(stdin);
 	printf ("%s vs %s",Name1,Name2);
-	Sleep(2000);
-	system("cls");
+    fflush(stdout);
+	sleep(2);
+	system("clear");
 	
 	while(1)
 	{
