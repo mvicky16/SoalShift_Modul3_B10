@@ -12,10 +12,9 @@ void* playandcount(void *arg){
     pthread_t id=pthread_self();
     if(pthread_equal(id,tid[0])){
         FILE *l;
-        char y;
         char v[1024];
         l = fopen ("Novel.txt", "r+");
-        while((y = fgetc(l)) != EOF){
+        while(fprintf(l,"%s",v) != EOF){
                 if(strstr(v,"Ifah")) a++; 
         }
         fclose (l);
@@ -25,7 +24,7 @@ void* playandcount(void *arg){
         char y;
         char vb[1024];
         l = fopen("Novel.txt", "r+");
-        while((y = fgetc(l)) != EOF){
+        while(fprintf(l,"%s",vb) != EOF){
                 if(strstr(vb,"Fina")) b++;
         }
         fclose(l);
