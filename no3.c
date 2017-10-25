@@ -27,3 +27,25 @@ void* playandcount(void *arg){
     }
     return NULL;
 }
+
+int main(void){
+    int i=0;
+    int x;
+    while(i<2){
+	pthread_create(&(tid[i]),NULL,&playandcount,NULL);
+        i++;
+    }
+    while(){
+    	printf("status Kepiting : %d\nstatus Lohan : %d\n",statk, statl);   
+    	printf("1.Memberi makan Kepiting\n");
+    	printf("2.Memberi makan Lohan\n");
+    	printf("1 / 2 ?\n");
+    	scanf("%d",&x);
+
+    	if (x == 1) statk = statk + 10;
+    	else if (x == 2) statl = statl + 10;
+    }
+    pthread_join(tid[0], NULL);
+    pthread_join(tid[1], NULL);
+    return 0;
+}
